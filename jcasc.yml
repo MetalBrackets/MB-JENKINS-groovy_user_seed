@@ -1,0 +1,72 @@
+jenkins:
+  systemMessage: "Welcome to the Jenkins Instance"
+
+  securityRealm:
+    local:
+      allowsSignup: false # désactiver l'inscription
+      users:
+        - id: "system_admin"
+          name: "System Administrator"
+          password: ${USER_SYSTEM_ADMIN_PASSWORD}
+        - id: "security_team"
+          name: "Security Team"
+          password: ${USER_SECURITY_TEAM_PASSWORD}
+        - id: "devops_user"
+          name: "DevOps User"
+          password: ${USER_DEVOPS_USER_PASSWORD}
+        - id: "guest"
+          name: "Guest"
+          password: ${USER_GUEST_PASSWORD}
+
+  authorizationStrategy:
+    roleBased:
+      roles:
+        global:
+          - name: "system_admin"
+            description: "Platform administrator"
+            permissions:
+              - "Overall/Administer"
+            entries:
+              - user: "system_admin"
+
+          - name: "security_team"
+            description: "Security and compliance"
+            permissions:
+              - "Overall/Read"
+              - "Job/Read"
+              - "Job/Build"
+              - "Job/Workspace"
+            entries:
+              - user: "security_team"
+
+          - name: "devops_user"
+            description: "DevOps engineers / CI maintainers"
+            permissions:
+              - "Overall/Read"
+              - "Job/Read"
+              - "Job/Build"
+              - "Job/Workspace"
+              - "Job/Create"
+              - "Job/Configure"
+              - "Job/Delete"
+              - "Job/Move"
+              - "Job/Cancel"
+            entries:
+              - user: "devops_user"
+
+          - name: "guest"
+            description: "Read‑only guest"
+            permissions:
+              - "Overall/Read"
+              - "Job/Read"
+              - "Job/Workspace"
+            entries:
+              - user: "guest"
+
+# permissive script security for Job DSL
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
+
+jobs:
+  - file: /usr/local/job_dsl.groovy

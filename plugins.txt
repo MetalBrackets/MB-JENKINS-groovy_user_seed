@@ -1,0 +1,13 @@
+# Core IaC & sécurité
+configuration-as-code:latest
+job-dsl:1.81
+script-security:latest
+role-strategy:latest
+
+# Outils essentiels
+cloudbees-folder:latest
+credentials:latest
+github:latest
+instance-identity:latest
+structs:latest
+ws-cleanup:latest

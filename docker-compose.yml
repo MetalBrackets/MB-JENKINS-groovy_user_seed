@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  jenkins:
+    container_name: jenkins
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./.env
+    environment:
+      - TZ=Europe/Paris
+
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - ./jcasc.yml:/var/jenkins_home/config/jcasc.yml:ro
+      - ./job_dsl.groovy:/usr/local/job_dsl.groovy:ro
+
+    restart: unless-stopped
